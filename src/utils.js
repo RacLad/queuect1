@@ -23,3 +23,15 @@ export function getCurrentTimestamp() {
 export function sleep(seconds) {
   return new Promise((resolve) => setTimeout(resolve, seconds * 1000));
 }
+
+
+/**
+ * Calculate exponential backoff delay
+ * Formula: delay = base ^ attempts
+ * @param {number} base - base delay value (e.g., 2)
+ * @param {number} attempts - number of attempts so far
+ * @returns {number} delay in seconds
+ */
+export function calculateBackoff(base, attempts) {
+  return Math.pow(base, attempts);
+}
