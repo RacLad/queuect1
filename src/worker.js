@@ -41,18 +41,19 @@ function getBackoffDelay(base, attempts) {
 
 function normalizeCommand(command) {
   if (process.platform === "win32") {
-    // Replace `sleep N` with Windows timeout
+    // convert 'sleep 3' → PowerShell
     if (command.startsWith("sleep")) {
       const seconds = command.split(" ")[1] || "1";
-      return `timeout /t ${seconds} && echo Slept for ${seconds}s`;
+      return `powershell -Command "Start-Sleep -Seconds ${seconds}; echo 'Slept ${seconds}s'"`;
     }
-
-    // ❌ Remove `> NUL` (not supported by spawn/cmd redirection)
-    return command.replace(/>\s*NUL/gi, "").trim();
+    // automatically wrap timeout commands safely
+    if (command.startsWith("timeout")) {
+      return `cmd /C "${command}"`;
+    }
   }
-
   return command;
 }
+
 
 
 // ✅ Cross-platform command executor
