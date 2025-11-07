@@ -41,7 +41,7 @@ const cli = yargs(hideBin(process.argv))
     },
     async (argv) => {
       if (argv.action === "start") {
-        console.log(chalk.cyan("🚀 Starting worker..."));
+        console.log(chalk.cyan(" Starting worker..."));
         await startWorker();
       }
     }
@@ -66,3 +66,10 @@ const cli = yargs(hideBin(process.argv))
         await showDLQ();
     }
   )
+
+// for default message if any other commands given
+.demandCommand(1, chalk.red(" Please provide a valid command."))
+  .help()
+  .strict();
+
+cli.parse();
