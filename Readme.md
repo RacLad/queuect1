@@ -29,6 +29,7 @@ queuect1/
 │   ├── worker.js       → Worker loop handling job execution and retries
 │   ├── storage.js      → Display and manage jobs and DLQ
 │   ├── util.js         → Utility functions (sleep, backoff logic)
+│   ├── config.js       → Configuration loader/manager (backoff base, max retries)
 │   └── jobs.json       → Persistent data store for jobs and DLQ
 │
 ├── queuect1.js         → Main CLI entry using yargs
