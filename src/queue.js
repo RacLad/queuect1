@@ -39,13 +39,14 @@ function writeJobsFile(data) {
 //  Function to create a new job i.e new object
 export async function enqueueJob(command) {
   const data = readJobsFile();
+  const config = JSON.parse(fs.readFileSync(CONFIG_FILE));
 
   const newJob = {
     id: `job-${Date.now()}`, // unique ID
     command,
     state: "pending",        // waiting for worker
     attempts: 0,             // retry count
-    max_retries: 3,          // configurable later
+    max_retries: config.max_retries || 3, // configurable later
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString(),
   };
