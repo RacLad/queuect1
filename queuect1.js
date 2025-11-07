@@ -10,6 +10,7 @@ const cli = yargs(hideBin(process.argv))
   .scriptName("queuectl")
   .usage("Usage: $0 <command> [options]")
 
+
 // for enqueue command 
 
 .command(
@@ -26,3 +27,22 @@ const cli = yargs(hideBin(process.argv))
         console.log(chalk.green(`Job '${argv.jobName}' added to queue`));
     }
 )
+
+// for Worker command (with nesting)
+  .command(
+    "worker <action>",
+    "Manage worker actions (start)",
+    (yargs) => {
+      yargs.positional("action", {
+        describe: "Action for worker (e.g., start)",
+        type: "string",
+        choices: ["start"],
+      });
+    },
+    async (argv) => {
+      if (argv.action === "start") {
+        console.log(chalk.cyan("🚀 Starting worker..."));
+        await startWorker();
+      }
+    }
+  )
